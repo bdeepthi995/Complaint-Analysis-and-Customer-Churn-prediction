@@ -1,0 +1,52 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #eef2f3, #dfe9f3);
+}
+
+.main-title {
+    font-weight: 600;
+    color: #2b2b2b;
+}
+
+.card {
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.upload-btn {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+}
+
+.upload-btn:hover {
+    background-color: #004a99;
+    transform: translateY(-2px);
+}
+
+.section-title {
+    font-weight: 600;
+    border-left: 5px solid #007bff;
+    padding-left: 10px;
+    color: #222;
+}
+
+.subtitle {
+    font-weight: 500;
+    color: #444;
+}
+
+.list-group-item {
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+img {
+    transition: transform .3s ease;
+}
+
+img:hover {
+    transform: scale(1.03);
+}
