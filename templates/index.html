@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Analyzer</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg animate__animated animate__fadeInDown rounded">
+            <h1 class="text-center mb-3 main-title animate__animated animate__fadeIn">Complaint Analysis Tool</h1>
+            <p class="text-center text-muted animate__animated animate__fadeInUp">
+                Upload a CSV file to classify complaints & predict churn.
+            </p>
+
+            <form action="/upload" method="POST" enctype="multipart/form-data" class="mt-4">
+                <div class="form-group">
+                    <label class="font-weight-bold">Upload CSV File</label>
+                    <input type="file" class="form-control-file" name="file" accept=".csv" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block upload-btn">
+                    Upload & Analyze
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector(".upload-btn").addEventListener("mouseover", function() {
+            this.classList.add("animate__pulse");
+        });
+        document.querySelector(".upload-btn").addEventListener("mouseleave", function() {
+            this.classList.remove("animate__pulse");
+        });
+    </script>
+
+</body>
+</html>
