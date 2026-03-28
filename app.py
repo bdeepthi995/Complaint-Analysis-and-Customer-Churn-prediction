@@ -8,15 +8,12 @@ from sklearn.naive_bayes import MultinomialNB
 
 app = Flask(__name__)
 
-# Ensure 'static' directory exists
 if not os.path.exists('static'):
     os.makedirs('static')
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -31,10 +28,8 @@ def upload_file():
         filepath = os.path.join('static', file.filename)
         file.save(filepath)
 
-        # Read CSV file
         data = pd.read_csv(filepath)
 
-        # --- Step 1: Classify complaints ---
         department_keywords = {
             'Customer Support': ['help', 'support', 'assist', 'service', 'issue', 'call', 'query'],
             'Technical Issues': ['error', 'bug', 'problem', 'crash', 'malfunction', 'fail', 'glitch'],
@@ -46,17 +41,9 @@ def upload_file():
         data['Department'] = data['complaint'].apply(
             lambda x: classify_department(x, department_keywords)
         )
-
-        # --- Step 2: Save department-wise CSVs ---
         save_department_data(data)
-
-        # --- Step 3: Generate Visualizations ---
         generate_visualizations(data)
-
-        # --- Step 4: Churn prediction reasons ---
         churn_reasons = churn_prediction_reasons(data)
-
-        # --- Counts for frontend ---
         dept_counts = data['Department'].value_counts().to_dict()
 
         return render_template(
@@ -68,11 +55,6 @@ def upload_file():
 
     return "Invalid file type. Only CSV files are allowed."
 
-
-# ================================
-# Helper Functions
-# ================================
-
 def classify_department(complaint, department_keywords):
     complaint = str(complaint).lower()
     for dept, keywords in department_keywords.items():
@@ -81,15 +63,12 @@ def classify_department(complaint, department_keywords):
                 return dept
     return 'Others'
 
-
 def save_department_data(data):
     for department in data['Department'].unique():
         dept_data = data[data['Department'] == department]
         dept_data.to_csv(f'static/{department}_complaints.csv', index=False)
 
-
 def generate_visualizations(data):
-    # Complaints per department
     dept_counts = data['Department'].value_counts()
 
     plt.figure(figsize=(10, 6))
@@ -101,7 +80,6 @@ def generate_visualizations(data):
     plt.savefig('static/complaints_per_department.png')
     plt.close()
 
-    # Complaints over time
     data['date_of_complaint'] = pd.to_datetime(data['date_of_complaint'])
     complaints_over_time = data.groupby(data['date_of_complaint'].dt.to_period('M')).size()
 
@@ -113,7 +91,6 @@ def generate_visualizations(data):
     plt.tight_layout()
     plt.savefig('static/complaints_over_time.png')
     plt.close()
-
 
 def churn_prediction_reasons(data):
     churn_reasons = []
@@ -133,11 +110,9 @@ def churn_prediction_reasons(data):
 
     return churn_reasons
 
-
 @app.route('/static/<filename>')
 def static_file(filename):
     return send_from_directory('static', filename)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
